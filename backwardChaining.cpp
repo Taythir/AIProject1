@@ -3,11 +3,13 @@
 #include <cstdlib>
 #include <cmath>
 
+using namespace std;
+
 int main() {
     struct carParts
     {
         bool broken = false;
-        std::string name;
+        string name;
     };
     
     carParts fuelFilter, stuckChoke, powerBooster, powerAssist, brakeFluid, lugNuts, torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, pump, battery;
@@ -31,28 +33,28 @@ int main() {
     bool carStarts, carStalls, carNeedsJump;
     bool variableList[30] = {carStarts, carStalls, carNeedsJump};
     
-    std::string answer;
-    std::cout << "Does the car start on it's own?: Y or N" << std::endl;
-    std::cin >> answer;
+    string answer;
+    cout << "Does the car start on it's own?: Y or N" << std::endl;
+    cin >> answer;
     if (answer == "Y")
     {
         variableList[0] = true;
-        std::cout << "Does the car stall?: Y or N" << std::endl;
-        std::cin >> answer;
+        cout << "Does the car stall?: Y or N" << endl;
+        cin >> answer;
         if (answer == "Y")
         {
-            std::cout << "Does the car stall on the key release";
+            cout << "Does the car stall on the key release";
         }
     } 
     else
     {
         variableList[0] = false;
-        std::cout << "Does the car start with a jump?: Y or N" << std::endl;
-        std::cin >> answer;
+        cout << "Does the car start with a jump?: Y or N" << endl;
+        cin >> answer;
         if (answer == "Y")
         {
             battery.broken = true;
-            std::cout << "Problem with " << battery.name << std::endl;
+            cout << "Problem with " << battery.name << endl;
         }
     }
     return 0;
