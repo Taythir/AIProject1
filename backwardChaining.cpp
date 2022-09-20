@@ -30,7 +30,7 @@ carParts backwardChaining() {
     coil.name = "Cracked Coil";
     stuckChoke.name = "Stuck Choke";
     brakeLines.name = "Brake Lines";
-    noProblem.name = "No Problem found";
+    noProblem.name = "No Problem Found";
     
     carParts conclusionList[30] = {fuelFilter, powerBooster, powerAssist,  brakeFluid, lugNuts, 
                                    torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, 
