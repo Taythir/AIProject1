@@ -88,7 +88,79 @@ int main() {
             cin >> answer;
             if (answer == "Y")
             {
-                
+                cout << "Is the steering wheel loose?: Y or N?" << endl;
+                cin >> answer;
+                if (answer == "Y")
+                {
+                    cout << "Are the lug nuts loose?: Y or N" << endl;
+                    cin >> answer;
+                    if (answer == "Y")
+                    {
+                        cout << "Problem with " << lugNuts.name;
+                    }
+                    else
+                    {
+                        cout << "Is axle nut loose?: Y or N" << endl;
+                        cin >> answer;
+                        if (answer == "Y")
+                        {
+                            cout << "Problem with " << torqueNut.name;
+                        }
+                        else
+                        {
+                            cout << "Problwm with " << strutSpring.name;
+                        }
+                    }
+                }
+                else
+                {
+                    cout << "Does the steering wheel pull?: Y or N" << endl;
+                    cin >> answer;
+                    if (answer == "Y")
+                    {
+                        cout << "Has the car been damaged by impact?: Y or N" << endl;
+                        cin >> answer;
+                        if (answer == "Y")
+                        {
+                            cout << "Problem with " << bentPart.name;
+                        }
+                        else
+                        {
+                            cout << "Is there uneven tire wear?: Y or N" << endl;
+                            cin >> answer;
+                            if (answer == "Y")
+                            {
+                                cout << "Problem with " << toeCamber.name;
+                            }
+                            else
+                            {
+                                cout << "Problem with " << suspension.name;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cout << "Is it hard to steer?: Y or N" << endl;
+                        cin >> answer;
+                        if (answer == "Y")
+                        {
+                            cout << "Problem with " << tireInflation.name;
+                        }
+                        else
+                        {
+                            cout << "Is it steering noisy?: Y or N" << endl;
+                            cin >> answer;
+                            if (answer == "Y")
+                            {
+                                cout << "Problem with " << pump.name;
+                            }
+                            else
+                            {
+                                cout << "No Problem found" << endl;
+                            }
+                        }
+                    }
+                }
             }
             else 
             {
