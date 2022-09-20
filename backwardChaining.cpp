@@ -6,11 +6,6 @@
 using namespace std;
 
 void backwardChaining() {
-    struct carParts
-    {
-        bool broken = false;
-        string name;
-    };
     
     carParts fuelFilter, stuckChoke, powerBooster, powerAssist, brakeFluid, lugNuts, torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, pump, battery, starter, dirtyTerminals, ignitionCircuit, coil, brakeLines;
     
