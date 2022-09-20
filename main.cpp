@@ -1,14 +1,16 @@
 #include <iostream>
-#include "backwardChaining.cpp"
+#include "backwardChaining.h"
 
 int main()
 {
    struct carParts
-   {
-       bool broken = false;
-       string name;
+   {  
+     bool broken = false;
+     string name;
    };
-  
-  backwardChaining();
-  return 0;
+   
+   carParts problem = backwardChaining(); // problem will be the carPart that is broken. 
+                                          // problem will be what is passed to the forward chaining function
+                                          // if problem.name == "No Problem Found" then a broken part wasn't found
+   return 0;
 }
