@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+void backwardChaining() {
     struct carParts
     {
         bool broken = false;
@@ -233,5 +233,5 @@ int main() {
             }
         }
     }
-    return 0;
+
 }
