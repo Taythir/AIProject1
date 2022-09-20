@@ -5,9 +5,11 @@
 
 using namespace std;
 
-void backwardChaining() {
+carParts backwardChaining() {
     
-    carParts fuelFilter, stuckChoke, powerBooster, powerAssist, brakeFluid, lugNuts, torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, pump, battery, starter, dirtyTerminals, ignitionCircuit, coil, brakeLines;
+    carParts fuelFilter, stuckChoke, powerBooster, powerAssist, brakeFluid, lugNuts, torqueNut, strutSpring, 
+             bentPart, toeCamber, suspension, tireInflation, pump, battery, starter, dirtyTerminals, 
+             ignitionCircuit, coil, brakeLines, noProblem;
     
     fuelFilter.name = "Fuel Filter";
     powerBooster.name = "Power Booster";
@@ -28,8 +30,12 @@ void backwardChaining() {
     coil.name = "Cracked Coil";
     stuckChoke.name = "Stuck Choke";
     brakeLines.name = "Brake Lines";
+    noProblem.name = "No Problem found";
     
-    carParts conclusionList[30] = {fuelFilter, powerBooster, powerAssist,  brakeFluid, lugNuts, torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, pump, battery, starter, dirtyTerminals, ignitionCircuit, coil, stuckChoke, brakeLines};
+    carParts conclusionList[30] = {fuelFilter, powerBooster, powerAssist,  brakeFluid, lugNuts, 
+                                   torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, 
+                                   pump, battery,starter, dirtyTerminals, ignitionCircuit, coil, stuckChoke, 
+                                   brakeLines, noProblem;
     
     bool carStarts, carStalls, carNeedsJump;
     bool variableList[30] = {carStarts, carStalls, carNeedsJump};
@@ -159,6 +165,7 @@ void backwardChaining() {
                             }
                             else
                             {
+                                noProblem.broken = true;
                                 cout << "No Problem found" << endl;
                             }
                         }
@@ -226,6 +233,14 @@ void backwardChaining() {
                 dirtyTerminals.broken = true;
                 cout << "Problem with " << dirtyTerminals.name << endl;
             }
+        }
+    }
+    
+    for (int i = 0; i < 30; i++)
+    {
+        if (conclusionList[i].broken == true)
+        {
+            return conclusionList[i];
         }
     }
 
