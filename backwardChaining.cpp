@@ -96,6 +96,7 @@ int main() {
                     cin >> answer;
                     if (answer == "Y")
                     {
+                        lugNuts.broken = true;
                         cout << "Problem with " << lugNuts.name;
                     }
                     else
@@ -104,11 +105,13 @@ int main() {
                         cin >> answer;
                         if (answer == "Y")
                         {
+                            torqueNut.broken = true;
                             cout << "Problem with " << torqueNut.name;
                         }
                         else
                         {
-                            cout << "Problwm with " << strutSpring.name;
+                            strutSpring.broken = true;
+                            cout << "Problem with " << strutSpring.name;
                         }
                     }
                 }
@@ -122,6 +125,7 @@ int main() {
                         cin >> answer;
                         if (answer == "Y")
                         {
+                            bentPart.broken = true;
                             cout << "Problem with " << bentPart.name;
                         }
                         else
@@ -130,10 +134,12 @@ int main() {
                             cin >> answer;
                             if (answer == "Y")
                             {
+                                toeCamber.broken = true;
                                 cout << "Problem with " << toeCamber.name;
                             }
                             else
                             {
+                                suspension.broken = true;
                                 cout << "Problem with " << suspension.name;
                             }
                         }
@@ -144,6 +150,7 @@ int main() {
                         cin >> answer;
                         if (answer == "Y")
                         {
+                            tireInflation.broken = true;
                             cout << "Problem with " << tireInflation.name;
                         }
                         else
@@ -152,6 +159,7 @@ int main() {
                             cin >> answer;
                             if (answer == "Y")
                             {
+                                pump.broken = true;
                                 cout << "Problem with " << pump.name;
                             }
                             else
