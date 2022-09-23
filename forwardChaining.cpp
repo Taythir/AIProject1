@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <cmath>
+#include <map>
 
 using namespace std;
 
@@ -21,7 +22,8 @@ carParts forwardChaining(int num){
 
     string VarList[4] = { "Problem with car", "Have certified mechanic replace the circuit", "Replace coil", "Replace fuel filter" };
 
-    string clauseVarList[62];
+    //a little confused on my size of this clauseVarList
+    string clauseVarList[70];
 
     // building clauseVarList
     clauseVarList[1] = "Problem with car";
