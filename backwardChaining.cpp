@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <cmath>
+#include "backwardChaining.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ carParts backwardChaining() {
     carParts conclusionList[30] = {fuelFilter, powerBooster, powerAssist,  brakeFluid, lugNuts, 
                                    torqueNut, strutSpring, bentPart, toeCamber, suspension, tireInflation, 
                                    pump, battery,starter, dirtyTerminals, ignitionCircuit, coil, stuckChoke, 
-                                   brakeLines, noProblem;
+                                   brakeLines, noProblem};
     
     bool carStarts, carStalls, carNeedsJump;
     bool variableList[30] = {carStarts, carStalls, carNeedsJump};
@@ -244,4 +245,45 @@ carParts backwardChaining() {
         }
     }
 
+        if (fuelFilter.broken == true)
+        return fuelFilter;
+    else if (powerBooster.broken == true)
+        return powerBooster;
+    else if (powerAssist.broken == true)
+        return powerAssist;
+    else if (brakeFluid.broken == true)
+        return brakeFluid;
+    else if (lugNuts.broken == true)
+        return lugNuts;
+    else if (torqueNut.broken == true)
+        return torqueNut;
+    else if (strutSpring.broken == true)
+        return strutSpring;
+    else if (bentPart.broken == true)
+        return bentPart;
+    else if (toeCamber.broken == true)
+        return toeCamber;
+    else if (suspension.broken == true)
+        return suspension;
+    else if (tireInflation.broken == true)
+        return tireInflation;
+    else if (pump.broken == true)
+        return pump;
+    else if (battery.broken == true)
+        return battery;
+    else if (starter.broken == true)
+        return starter;
+    else if (dirtyTerminals.broken == true)
+        return dirtyTerminals;
+    else if (ignitionCircuit.broken == true)
+        return ignitionCircuit;
+    else if (coil.broken == true)
+        return coil;
+    else if (stuckChoke.broken == true)
+        return stuckChoke;
+    else if (brakeLines.broken == true)
+        return brakeLines;
+    else
+        return noProblem;
+    
 }
