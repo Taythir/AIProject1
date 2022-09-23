@@ -5,32 +5,32 @@
 
 using namespace std;
 
-carParts forwardChaining(int problem_num){
+carParts forwardChaining(int num){
 
     // first check backward chaining output for incompatible results (no problem or error)
 
-    if ( problem_num == 4 ){
-        std::cout << "The car has no problems." << endl;
+    if ( num == 4 ){
+        cout << "The car has no problems." << endl;
         return;
 
-    } else if ( problem_num == -1 ){
-        std::cout << "There was an error, try running the program again." << endl;
+    } else if ( num == -1 ){
+        cout << "There was an error, try running the program again." << endl;
         
         return;
     }
 
-    string variableList[4] = { "Problem with car", "FIX_1", "FIX_2", "FIX_3" };
+    string VarList[4] = { "Problem with car", "FIX_1", "FIX_2", "FIX_3" };
 
-    string clauseVariableList[62];
+    string clauseVarList[62];
 
-    // building clauseVariableList
-    clauseVariableList[1] = "Problem with car";
+    // building clauseVarList
+    clauseVarList[1] = "Problem with car";
 
     for ( int i = 2 ; i < 60 ; i += 4) {
-        clauseVariableList[i]   = "";
-        clauseVariableList[i+1] = "";
-        clauseVariableList[i+2] = "";
-        clauseVariableList[i+3] = "Problem with car";
+        clauseVarList[i]   = "";
+        clauseVarList[i+1] = "";
+        clauseVarList[i+2] = "";
+        clauseVarList[i+3] = "Problem with car";
     }
 
     // structures for rulebase
@@ -58,17 +58,6 @@ carParts forwardChaining(int problem_num){
     ruleBase.insert( pair <int , pair_prob > ( 160, pair_prob ( 6 , pair_FIX( "FIX_1" , 7 ) ) ) ) ;
     ruleBase.insert( pair <int , pair_prob > ( 170, pair_prob ( 6 , pair_FIX( "FIX_1" , 8 ) ) ) ) ;
 
-    // create map of FIXs
-    map <int, string> FIXNames;
-    FIXNames.insert(pair< int, string  > ( 1 , "fix1" ) );
-    FIXNames.insert(pair< int, string  > ( 2 , "fix2" ) );
-    FIXNames.insert(pair< int, string  > ( 3 , "fix3" ) );
-    FIXNames.insert(pair< int, string  > ( 4 , "fix4" ) );
-    FIXNames.insert(pair< int, string  > ( 5 , "fix5" ) );
-    FIXNames.insert(pair< int, string  > ( 6 , "fix6" ) );
-    FIXNames.insert(pair< int, string  > ( 7 , "fix7" ) );
-    FIXNames.insert(pair< int, string  > ( 8 , "fix8" ) );
-
     // create map of problem names
     map <int, string> problemNames;
     
@@ -80,58 +69,69 @@ carParts forwardChaining(int problem_num){
     problemNames.insert(pair< int, string  > ( 7 , "problem6" ) );
     problemNames.insert(pair< int, string  > ( 8 , "problem7" ) );
     problemNames.insert(pair< int, string  > ( 9 , "problem8" ) );
+    
+    // create map of FIXs
+    map <int, string> FIXNames;
+    FIXNames.insert(pair< int, string  > ( 1 , "fix1" ) );
+    FIXNames.insert(pair< int, string  > ( 2 , "fix2" ) );
+    FIXNames.insert(pair< int, string  > ( 3 , "fix3" ) );
+    FIXNames.insert(pair< int, string  > ( 4 , "fix4" ) );
+    FIXNames.insert(pair< int, string  > ( 5 , "fix5" ) );
+    FIXNames.insert(pair< int, string  > ( 6 , "fix6" ) );
+    FIXNames.insert(pair< int, string  > ( 7 , "fix7" ) );
+    FIXNames.insert(pair< int, string  > ( 8 , "fix8" ) );
 
     // create the fact base as a map
-    map < string , int > factBase;
+    map <string , int> factBase;
 
-    // create conclusion variable queue
-    queue <string> conclusionVariableQueue;
+    // create conclusion Var queue
+    queue <string> conclusionVarQueue;
 
     // add the problem to the fact base
-    factBase.insert(pair< string, int > ("Problem with car" , problem_num ) );
+    factBase.insert(pair< string, int > ("Problem with car" , num ) );
 
-    conclusionVariableQueue.push( "Problem with car" );
+    conclusionVarQueue.push( "Problem with car" );
 
     int ruleNum = 0;
-    string newVariable;
+    string newVar;
     
-    while ( !conclusionVariableQueue.empty() ){
-        // iterate through clause variable list
+    while ( !conclusionVarQueue.empty() ){
+        // iterate through clause Var list
         for ( int i = 1 ; i < 62 ; i++ ) {
-            if ( clauseVariableList[i] == conclusionVariableQueue.front() ){
-                // compute rule number from variable list number
+            if (clauseVarList[i] == conclusionVarQueue.front()){
+                // compute rule number from Var list number
                 ruleNum = ( ( i / 4 ) + 1 ) * 10;
                 
                 // check problem against rule
-                //if ( problem_num == ruleBase[ruleNum].first ){
+                //if ( num == ruleBase[ruleNum].first ){
                 if ( factBase["Problem with car"] == ruleBase[ruleNum].first ){
                     
                     factBase.insert( ruleBase[ruleNum].second );
 
-                    newVariable = ruleBase[ruleNum].second.first;
+                    newVar = ruleBase[ruleNum].second.first;
 
-                    conclusionVariableQueue.push( newVariable );
+                    conclusionVarQueue.push( newVar );
                 }
             }
         }
-        // remove top variable from queue
-        conclusionVariableQueue.pop();
+        // remove top Var from queue
+        conclusionVarQueue.pop();
     }
 
     // return results to user
-    std::cout << "Recommended FIX for " << problemNames[ factBase["Problem with car"] ] << " is:" << endl;
+    cout << "Recommended fix for " << problemNames[ factBase["Problem with car"] ] << " is:" << endl;
     int FIXs = factBase.size() - 1;
 
     if ( FIXs > 0 ){
-        std::cout << "\t" << FIXNames[ factBase["FIX_1"]] << endl;
+        cout << "\t" << FIXNames[ factBase["FIX_1"]] << endl;
     }
     
     if ( FIXs > 1 ){
-        std::cout << "\t" << FIXNames[ factBase["FIX_2"]] << endl;
+        cout << "\t" << FIXNames[ factBase["FIX_2"]] << endl;
     }
     
     if ( FIXs > 2 ){
-        std::cout << "\t" << FIXNames[ factBase["FIX_3"]] << endl;
+        cout << "\t" << FIXNames[ factBase["FIX_3"]] << endl;
     }
     return;
 
