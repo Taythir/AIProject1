@@ -37,6 +37,11 @@ int main()
   
   displayBoard();
   
+  XMax.play(1,2);
+  displayBoard();
+  OMin.play(2,2);
+  displayBoard();
+  
 }
 
 void displayBoard() // prints out the current tic tac toe board
@@ -58,35 +63,4 @@ void displayBoard() // prints out the current tic tac toe board
   }
   cout << endl << endl << endl;
 }
-  }
-  Player XMax, OMin;
-  XMax.peice = 'X';
-  OMin.peice = 'O';
-  
-  displayBoard();
-  
-  XMax.play(1,2);
-  displayBoard();
-  OMin.play(2,2);
-  displayBoard();
-}
 
-void displayBoard() // prints out the current tic tac toe board
-{
-  for (int i = 0; i<=2; i++)
-  {
-    cout << board[i][0] << "    ";
-    
-    for (int j = 1; j<=2; j++)
-    {
-      cout << "|" << "    " << board[0][j] << "    ";
-    }
-    
-    if (i != 2)
-    {
-      cout << endl << "_____________________" << endl;
-    }
-    
-  }
-  cout << endl << endl << endl;
-}
