@@ -16,8 +16,11 @@ class Player
   public: char peice; // x or y
   void play(int r, int c)
   {
-    board[r][c] = peice;
-    freeSpace[r][c] = false;
+    if (freeSpace[r][c] == true)
+    {
+      board[r][c] = peice;
+      freeSpace[r][c] = false;
+    }
   }
 };
 
@@ -70,4 +73,5 @@ void initBoard() //makes all spaces in the board blank
     }
   }  
 }
+
 
