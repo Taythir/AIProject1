@@ -9,6 +9,7 @@ char board[2][2]; // tic tac toe board
 bool freeSpace[2][2]; // same as tic tac toe board but holds false if a space has been played in and true if not
 
 void displayBoard();
+void initBoard();
 
 class Player
 {
@@ -23,14 +24,8 @@ class Player
 
 int main()
 {
-  for (int i = 0; i <= 2; i++)
-  {
-    for (int j = 0; j<=2; j++)
-    {
-      board[i][j] = '~'; // ~ represents empty
-      freeSpace[i][j] = true;
-    }
-  }
+  initBoard();
+  
   Player XMax, OMin;
   XMax.peice = 'X';
   OMin.peice = 'O';
@@ -39,7 +34,7 @@ int main()
   
   XMax.play(1,2);
   displayBoard();
-  OMin.play(2,2);
+  OMin.play(0,2);
   displayBoard();
   
 }
@@ -62,5 +57,17 @@ void displayBoard() // prints out the current tic tac toe board
     
   }
   cout << endl << endl << endl;
+}
+
+void initBoard() //makes all spaces in the board blank
+{
+  for (int i = 0; i <= 2; i++)
+  {
+    for (int j = 0; j<=2; j++)
+    {
+      board[i][j] = '~'; // ~ represents empty
+      freeSpace[i][j] = true;
+    }
+  }  
 }
 
