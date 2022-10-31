@@ -5,8 +5,10 @@
 
 using namespace std;
 
-char board[2][2]; // tic tac toe board
-bool freeSpace[2][2]; // same as tic tac toe board but holds false if a space has been played in and true if not
+const int SIZE = 3;
+
+char board[SIZE][SIZE]; // tic tac toe board
+bool freeSpace[SIZE][SIZE]; // same as tic tac toe board but holds false if a space has been played in and true if not
 
 void displayBoard();
 void initBoard();
