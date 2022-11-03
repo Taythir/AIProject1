@@ -54,7 +54,7 @@ int main()
   XMax.peice = 'X';
   OMin.peice = 'O';
   
-  Node *n = moveGen(board, XMax);
+  Node *n = moveGen(board, OMin);
 }
 
 void displayBoard(char b[SIZE][SIZE]) // prints out the current tic tac toe board
@@ -126,4 +126,36 @@ Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
   }
   
   return retArr;
+}
+
+int eval(char b[SIZE][SIZE], Player p)
+{
+    int w = 0; // number of possible win lines for player
+    int l = 0; //number of possible win lines for opposing player
+    char op; // opposite players peice
+    
+    if (p.peice = 'X')
+    {
+      op = 'O';
+    }
+    else
+    {
+      op = 'X';
+    }
+    
+    if (b[0][0] != op && b[0][1] != op && b[0][2] != op)
+    {
+      w++;
+    }
+    if (b[1][0] != op && b[1][1] != op && b[1][2] != op)
+    {
+      w++;
+    }
+    if (b[2][0] != op && b[2][1] != op && b[2][2] != op)
+    {
+      w++;
+    }
+    
+    int evalFunc = w - l;
+    return evalFunc;
 }
