@@ -143,6 +143,7 @@ int eval(char b[SIZE][SIZE], Player p)
       op = 'X';
     }
     
+    // horizontal possible wins
     if (b[0][0] != op && b[0][1] != op && b[0][2] != op)
     {
       w++;
@@ -155,7 +156,69 @@ int eval(char b[SIZE][SIZE], Player p)
     {
       w++;
     }
-    
+  
+    //up and down possible wins
+    if (b[0][0] != op && b[1][0] != op && b[2][0] != op)
+    {
+      w++;
+    }
+    if (b[0][1] != op && b[1][1] != op && b[2][1] != op)
+    {
+      w++;
+    }
+    if (b[0][2] != op && b[1][2] != op && b[2][2] != op)
+    {
+      w++;
+    }
+  
+    //diagonal possible wins  
+    if (b[0][0] != op && b[1][1] != op && b[2][2] != op)
+    { 
+      w++;
+    }
+    if (b[2][0] != op && b[1][1] != op && b[0][2] != op)
+    { 
+      w++;
+    }
+     
+    // horizontal possible losses
+    if (b[0][0] != p.peice && b[0][1] != p.peice && b[0][2] != p.peice)
+    {
+      l++;
+    }
+    if (b[1][0] != p.peice && b[1][1] != p.peice && b[1][2] != p.peice)
+    {
+      l++;
+    }
+    if (b[2][0] != p.peice && b[2][1] != p.peice && b[2][2] != p.peice)
+    {
+      l++;
+    }
+  
+    // up and down possible losses
+    if (b[0][0] != p.peice && b[1][0] != p.peice && b[2][0] != p.peice)
+    {
+      l++;
+    }
+    if (b[0][1] != p.peice && b[1][1] != p.peice && b[2][1] != p.peice)
+    {
+      l++;
+    }
+    if (b[0][2] != p.peice && b[1][2] != p.peice && b[2][2] != p.peice)
+    {
+      l++;
+    }
+  
+    //diagonal possible losses  
+    if (b[0][0] != p.peice && b[1][1] != p.peice && b[2][2] != p.peice)
+    { 
+      l++;
+    }
+    if (b[2][0] != p.peice && b[1][1] != p.peice && b[0][2] != p.peice)
+    { 
+      l++;
+    }
+  
     int evalFunc = w - l;
     return evalFunc;
 }
