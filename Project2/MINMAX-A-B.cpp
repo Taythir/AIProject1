@@ -16,10 +16,25 @@ void initBoard();
 class Node
 {
   public:
-  char nodeBoard[SIZE][SIZE];
-  int val = NULL, depth = NULL;
+  char nodeBoard[SIZE][SIZE]; //tic tac toe board for node
+  int val = NULL, /* eval function value*/ depth = NULL;
+  bool terminal = false; //if this is an end of game node, if one player won
+  Node(); // constructor
+  
   Node *parentNode = NULL;
 };
+
+Node::Node(void)
+{
+    int d = 0; //depth variable
+    Node *tmp = this->parentNode;
+    while (tmp != NULL)
+    {
+        d++;
+        tmp = tmp->parentNode;
+    }
+    this->depth = d; 
+}
 
 Node path[9]; // 9 is max number of moves
 int pathCount = 0;
@@ -103,6 +118,7 @@ void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]) //sets a = b
 Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
 {
   Node retArr[9]; // array that is returned, array of possible moves(nodes)
+  int retArrCount = 0;
   char possibleBoard[SIZE][SIZE];
 
   setArrEqual(possibleBoard, b);
@@ -115,7 +131,11 @@ Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
       {
         possibleBoard[i][j] = p.peice;
         setArrEqual(nodes[nodeCount].nodeBoard, possibleBoard);
-
+        
+        Node n;
+        setArrEqual(n.nodeBoard, possibleBoard);
+        retArr[retArrCount] = n;
+        
         cout << nodeNames[nodeCount] << endl;
         displayBoard(possibleBoard);
         nodeCount++;
@@ -222,3 +242,11 @@ int eval(char b[SIZE][SIZE], Player p)
     int evalFunc = w - l;
     return evalFunc;
 }
+
+bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in MINIMAX-A-B
+{
+      
+    
+}
+
+//void MINIMAX-A-B (Node n, int depth, Player p, useThresh, passTresh) // node is position
