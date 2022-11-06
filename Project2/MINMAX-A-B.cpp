@@ -21,11 +21,56 @@ class Node
   bool terminal = false; //if this is an end of game node, if one player won
   Node(); // constructor
   
+  void terminalCheck() // check if node is a terminal node
+  { 
+    this->terminal = false;  
+      
+    //horizontal
+    if(this->nodeBoard[0][0] != '~' && this->nodeBoard[0][0] == this->nodeBoard[0][1] && this->nodeBoard[0][1] == this->nodeBoard[0][2])
+    {
+      this->terminal = true;
+    }
+    if(this->nodeBoard[1][0] != '~' && this->nodeBoard[1][0] == this->nodeBoard[1][1] && this->nodeBoard[1][1] == this->nodeBoard[1][2])
+    {
+      this->terminal = true;
+    }
+    if(this->nodeBoard[2][0] != '~' && this->nodeBoard[2][0] == this->nodeBoard[2][1] && this->nodeBoard[2][1] == this->nodeBoard[2][2])
+    {
+      this->terminal = true;
+    }
+    
+    //vertical
+    if(this->nodeBoard[0][0] != '~' && this->nodeBoard[0][0] == this->nodeBoard[1][0] && this->nodeBoard[1][0] == this->nodeBoard[2][0])
+    {
+      this->terminal = true;
+    }
+    if(this->nodeBoard[0][1] != '~' && this->nodeBoard[0][1] == this->nodeBoard[1][1] && this->nodeBoard[1][1] == this->nodeBoard[2][1])
+    {
+      this->terminal = true;
+    }
+    if(this->nodeBoard[0][2] != '~' && this->nodeBoard[0][2] == this->nodeBoard[1][2] && this->nodeBoard[1][2] == this->nodeBoard[2][2])
+    {
+      this->terminal = true;
+    }
+    
+    //diagonal
+    if(this->nodeBoard[0][0] != '~' && this->nodeBoard[0][0] == this->nodeBoard[1][1] && this->nodeBoard[1][1] == this->nodeBoard[2][2])
+    {
+      this->terminal = true;
+    }
+    if(this->nodeBoard[0][2] != '~' && this->nodeBoard[0][2] == this->nodeBoard[1][1] && this->nodeBoard[1][1] == this->nodeBoard[2][0])
+    {
+      this->terminal = true;
+    }
+    
+  }
+  
   Node *parentNode = NULL;
 };
 
-Node::Node(void)
+Node::Node()
 {
+    // To set depth
     int d = 0; //depth variable
     Node *tmp = this->parentNode;
     while (tmp != NULL)
@@ -60,7 +105,7 @@ Node * moveGen(char b[SIZE][SIZE], Player p);
 void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]); //sets a = b
 
 
-
+///////////////////////////////////////////
 int main()
 {
   initBoard();
@@ -70,7 +115,12 @@ int main()
   OMin.peice = 'O';
   
   Node *n = moveGen(board, OMin);
+  
+  int nodesGenerated = nodeCount + 1;
+  cout << "Nodes Generated: " << nodeCount;
 }
+///////////////////////////////////////////
+
 
 void displayBoard(char b[SIZE][SIZE]) // prints out the current tic tac toe board
 {
@@ -132,8 +182,9 @@ Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
         possibleBoard[i][j] = p.peice;
         setArrEqual(nodes[nodeCount].nodeBoard, possibleBoard);
         
-        Node n;
+        Node n = Node();
         setArrEqual(n.nodeBoard, possibleBoard);
+        n.terminalCheck();
         retArr[retArrCount] = n;
         
         cout << nodeNames[nodeCount] << endl;
@@ -245,8 +296,26 @@ int eval(char b[SIZE][SIZE], Player p)
 
 bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in MINIMAX-A-B
 {
-      
-    
+  if(n.depth >= depth) 
+  {
+    return true;
+  }
+  else if(n.terminal == true)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
-//void MINIMAX-A-B (Node n, int depth, Player p, useThresh, passTresh) // node is position
+/*
+void MINIMAX-A-B (Node n, int depth, Player p, useThresh, passTresh) // node is position
+{
+  if (deepEnough(n, depth) == true)
+  {
+          
+  }
+}
+*/
