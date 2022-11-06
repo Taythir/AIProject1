@@ -66,7 +66,7 @@ class Node
   }
   
   Node *parentNode = NULL;
-  Node *children[9]; //9 is max number of children
+  Node *children[9] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL}; //9 is max number of children
 };
 
 Node::Node()
@@ -135,7 +135,12 @@ int main()
   cin >> OMin.evalNumber;
   cout << endl << endl;
   
-  Node *n = moveGen(board, OMin);
+  /* actually play the game
+  while(path[pathCount].terminal != null)
+  {
+    
+  }
+  */
   
   int nodesGenerated = nodeCount + 1;
   cout << "Nodes Generated: " << nodeCount;
@@ -186,9 +191,9 @@ void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]) //sets a = b
   }
 }
 
-Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
+void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
 {
-  Node retArr[9]; // array that is returned, array of possible moves(nodes)
+  //Node retArr[9]; // array that is returned, array of possible moves(nodes)
   int retArrCount = 0;
   char possibleBoard[SIZE][SIZE];
 
@@ -206,7 +211,8 @@ Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
         Node n = Node();
         setArrEqual(n.nodeBoard, possibleBoard);
         n.terminalCheck();
-        retArr[retArrCount] = n;
+        n.parentNode = &node;
+        node.children[retArrCount] = &n;
         
         cout << nodeNames[nodeCount] << endl;
         displayBoard(possibleBoard);
@@ -217,7 +223,7 @@ Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
     }
   }
   
-  return retArr;
+  //return retArr;
 }
 
 int eval(char b[SIZE][SIZE], Player p)
@@ -336,16 +342,21 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
 }
 
 
-void MINIMAX(Node n, int depth, Player p) // node is position
+Node MINIMAX(Node n, int depth, Player p) // node is position
 {
 
   if (deepEnough(n, depth) == true)
   {
-    path[pathCount] = n;
+    return n;
   }
   else
   {
-    n.children[9] = moveGen(n.nodeBoard, p);
+    moveGen(n.nodeBoard, p, n);
+    
+    if(n.children[0] == NULL)
+    {
+        return n;
+    }
   }
       
 }
