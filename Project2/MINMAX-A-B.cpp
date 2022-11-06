@@ -66,6 +66,7 @@ class Node
   }
   
   Node *parentNode = NULL;
+  Node *children[9]; //9 is max number of children
 };
 
 Node::Node()
@@ -91,6 +92,7 @@ int nodeCount = 0;
 class Player
 {
   public: char peice; // x or y
+  int evalNumber; // to pick which evaluation function to use;
   void play(int r, int c)
   {
     if (freeSpace[r][c] == true)
@@ -109,10 +111,29 @@ void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]); //sets a = b
 int main()
 {
   initBoard();
+  int minMaxDepth = 0; //to use when calling MINIMAX
   
   Player XMax, OMin;
   XMax.peice = 'X';
   OMin.peice = 'O';
+  
+  cout << "Which evaluation function for XMax?: " << endl
+       << "1: Possible wins - possible losses " << endl 
+       << "2: " << endl //add explanations for other evaluation functions and their code in the corresponding switch case in the eval function definition
+       << "3: " << endl
+       << "4: " << endl
+       << "Please enter a number: ";
+  cin >> XMax.evalNumber;
+  cout << endl << endl;
+  
+  cout << "Which evaluation function for OMin?: " << endl
+       << "1: Possible wins - possible losses " << endl
+       << "2: " << endl
+       << "3: " << endl
+       << "4: " << endl
+       << "Please enter a number: ";
+  cin >> OMin.evalNumber;
+  cout << endl << endl;
   
   Node *n = moveGen(board, OMin);
   
@@ -201,97 +222,101 @@ Node * moveGen(char b[SIZE][SIZE], Player p) // move generator
 
 int eval(char b[SIZE][SIZE], Player p)
 {
-    int w = 0; // number of possible win lines for player
-    int l = 0; //number of possible win lines for opposing player
-    char op; // opposite players peice
+    switch (p.evalNumber) // add other evaluation functions in other cases
+    {
+      case 1:
+        int w = 0; // number of possible win lines for player
+        int l = 0; //number of possible win lines for opposing player
+        char op; // opposite players peice
     
-    if (p.peice = 'X')
-    {
-      op = 'O';
-    }
-    else
-    {
-      op = 'X';
-    }
-    
-    // horizontal possible wins
-    if (b[0][0] != op && b[0][1] != op && b[0][2] != op)
-    {
-      w++;
-    }
-    if (b[1][0] != op && b[1][1] != op && b[1][2] != op)
-    {
-      w++;
-    }
-    if (b[2][0] != op && b[2][1] != op && b[2][2] != op)
-    {
-      w++;
-    }
-  
-    //up and down possible wins
-    if (b[0][0] != op && b[1][0] != op && b[2][0] != op)
-    {
-      w++;
-    }
-    if (b[0][1] != op && b[1][1] != op && b[2][1] != op)
-    {
-      w++;
-    }
-    if (b[0][2] != op && b[1][2] != op && b[2][2] != op)
-    {
-      w++;
-    }
-  
-    //diagonal possible wins  
-    if (b[0][0] != op && b[1][1] != op && b[2][2] != op)
-    { 
-      w++;
-    }
-    if (b[2][0] != op && b[1][1] != op && b[0][2] != op)
-    { 
-      w++;
-    }
+        if (p.peice = 'X')
+        {
+          op = 'O';
+        }
+        else
+        {
+          op = 'X';
+        }
      
-    // horizontal possible losses
-    if (b[0][0] != p.peice && b[0][1] != p.peice && b[0][2] != p.peice)
-    {
-      l++;
-    }
-    if (b[1][0] != p.peice && b[1][1] != p.peice && b[1][2] != p.peice)
-    {
-      l++;
-    }
-    if (b[2][0] != p.peice && b[2][1] != p.peice && b[2][2] != p.peice)
-    {
-      l++;
-    }
+        // horizontal possible wins
+        if (b[0][0] != op && b[0][1] != op && b[0][2] != op)
+        {
+          w++;
+        }
+        if (b[1][0] != op && b[1][1] != op && b[1][2] != op)
+        {
+          w++;
+        }
+        if (b[2][0] != op && b[2][1] != op && b[2][2] != op)
+        {
+          w++;
+        }
+    
+        //up and down possible wins
+        if (b[0][0] != op && b[1][0] != op && b[2][0] != op)
+        {
+          w++;
+        }
+        if (b[0][1] != op && b[1][1] != op && b[2][1] != op)
+        {
+          w++;
+        }
+        if (b[0][2] != op && b[1][2] != op && b[2][2] != op)
+        {
+          w++;
+        }
   
-    // up and down possible losses
-    if (b[0][0] != p.peice && b[1][0] != p.peice && b[2][0] != p.peice)
-    {
-      l++;
-    }
-    if (b[0][1] != p.peice && b[1][1] != p.peice && b[2][1] != p.peice)
-    {
-      l++;
-    }
-    if (b[0][2] != p.peice && b[1][2] != p.peice && b[2][2] != p.peice)
-    {
-      l++;
-    }
+        //diagonal possible wins  
+        if (b[0][0] != op && b[1][1] != op && b[2][2] != op)
+        { 
+          w++;
+        }
+        if (b[2][0] != op && b[1][1] != op && b[0][2] != op)
+        {  
+          w++;
+        }
+     
+        // horizontal possible losses
+        if (b[0][0] != p.peice && b[0][1] != p.peice && b[0][2] != p.peice)
+        {
+          l++;
+        }
+        if (b[1][0] != p.peice && b[1][1] != p.peice && b[1][2] != p.peice)
+        {
+          l++;
+        }
+        if (b[2][0] != p.peice && b[2][1] != p.peice && b[2][2] != p.peice)
+        {
+          l++;
+        }
   
-    //diagonal possible losses  
-    if (b[0][0] != p.peice && b[1][1] != p.peice && b[2][2] != p.peice)
-    { 
-      l++;
-    }
-    if (b[2][0] != p.peice && b[1][1] != p.peice && b[0][2] != p.peice)
-    { 
-      l++;
-    }
+        // vertical 
+        if (b[0][0] != p.peice && b[1][0] != p.peice && b[2][0] != p.peice)
+        {
+          l++;
+        }
+        if (b[0][1] != p.peice && b[1][1] != p.peice && b[2][1] != p.peice)
+        {
+          l++;
+        }
+        if (b[0][2] != p.peice && b[1][2] != p.peice && b[2][2] != p.peice)
+        {
+          l++;
+        }
   
-    int evalFunc = w - l;
-    return evalFunc;
+        //diagonal possible losses  
+        if (b[0][0] != p.peice && b[1][1] != p.peice && b[2][2] != p.peice)
+        { 
+          l++;
+        }
+        if (b[2][0] != p.peice && b[1][1] != p.peice && b[0][2] != p.peice)
+        {  
+          l++;
+        }
+  
+        int evalFunc = w - l;
+        return evalFunc;
+    }
 }
 
 bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in MINIMAX-A-B
@@ -310,12 +335,17 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
   }
 }
 
-/*
-void MINIMAX-A-B (Node n, int depth, Player p, useThresh, passTresh) // node is position
+
+void MINIMAX(Node n, int depth, Player p) // node is position
 {
+
   if (deepEnough(n, depth) == true)
   {
-          
+    path[pathCount] = n;
   }
+  else
+  {
+    n.children[9] = moveGen(n.nodeBoard, p);
+  }
+      
 }
-*/
