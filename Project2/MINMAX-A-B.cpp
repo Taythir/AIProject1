@@ -2,7 +2,9 @@
 #include <iomanip>
 #include <cstdlib>
 #include <cmath>
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
 
 const int SIZE = 3;
@@ -135,6 +137,7 @@ int main()
   cin >> OMin.evalNumber;
   cout << endl << endl;
   
+  auto start = high_resolution_clock::now();
   /* actually play the game
   while(path[pathCount].terminal != null)
   {
@@ -142,8 +145,11 @@ int main()
   }
   */
   
+  auto stop = high_resolution_clock::now();
+  auto duration = duration_cast<microseconds>(stop - start);
   int nodesGenerated = nodeCount + 1;
-  cout << "Nodes Generated: " << nodeCount;
+  cout << "Nodes Generated: " << nodeCount << endl
+       << "Duration: " << duration.count() << " microseconds" << endl;
 }
 ///////////////////////////////////////////
 
@@ -344,7 +350,6 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
 
 Node MINIMAX(Node n, int depth, Player p) // node is position
 {
-
   if (deepEnough(n, depth) == true)
   {
     return n;
@@ -356,6 +361,7 @@ Node MINIMAX(Node n, int depth, Player p) // node is position
     if(n.children[0] == NULL)
     {
         return n;
+        
     }
   }
       
