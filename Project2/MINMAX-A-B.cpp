@@ -141,10 +141,12 @@ int main()
   
   Node initialNode;
   setArrEqual(initialNode.nodeBoard, board);
+  path[pathCount] = initialNode;
   
   auto start = high_resolution_clock::now(); //start timer
   // actually play the game
-  while(path[pathCount].terminal != NULL)
+  //while(path[pathCount].terminal == false)
+  for (int i = 0; i < 9; i++)
   {
       // XMax goes first
     path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
@@ -156,7 +158,7 @@ int main()
   int nodesGenerated = nodeCount + 1;
   
   cout << "actual path: " << endl;
-  for (int i = 0; i <= pathCount; i++)
+  for (int i = 0; i < pathCount; i++)
   {
     displayBoard(path[i].nodeBoard);
   }
