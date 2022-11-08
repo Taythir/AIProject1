@@ -7,7 +7,7 @@
 using namespace std::chrono;
 using namespace std;
 
-const int SIZE = 3;
+const int SIZE = 3, USETHRESH = 100, PASSTHRESH = 100;
 
 char board[SIZE][SIZE]; // tic tac toe board
 bool freeSpace[SIZE][SIZE]; // same as tic tac toe board but holds false if a space has been played in and true if not
@@ -19,7 +19,8 @@ class Node
 {
   public:
   char nodeBoard[SIZE][SIZE]; //tic tac toe board for node
-  int val = NULL, /* eval function value*/ depth = NULL;
+  int val = NULL, /* eval function value*/ depth = NULL,
+      newVal = NULL;
   bool terminal = false; //if this is an end of game node, if one player won
   Node(); // constructor
   
@@ -108,6 +109,7 @@ class Player
 Node * moveGen(char b[SIZE][SIZE], Player p);
 void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]); //sets a = b
 
+Player XMax, OMin;
 
 ///////////////////////////////////////////
 int main()
@@ -115,10 +117,8 @@ int main()
   initBoard();
   int minMaxDepth = 0; //to use when calling MINIMAX
   
-  Player XMax, OMin;
   XMax.peice = 'X';
   OMin.peice = 'O';
-  
   cout << "Which evaluation function for XMax?: " << endl
        << "1: Possible wins - possible losses " << endl 
        << "2: " << endl //add explanations for other evaluation functions and their code in the corresponding switch case in the eval function definition
@@ -195,41 +195,6 @@ void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]) //sets a = b
       a[i][j] = b[i][j];
     }
   }
-}
-
-void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
-{
-  //Node retArr[9]; // array that is returned, array of possible moves(nodes)
-  int retArrCount = 0;
-  char possibleBoard[SIZE][SIZE];
-
-  setArrEqual(possibleBoard, b);
-  
-  for (int i = 0; i<= 2; i++)
-  {
-    for (int j = 0; j <=2; j++)
-    {
-      if(freeSpace[i][j] == true)
-      {
-        possibleBoard[i][j] = p.peice;
-        setArrEqual(nodes[nodeCount].nodeBoard, possibleBoard);
-        
-        Node n = Node();
-        setArrEqual(n.nodeBoard, possibleBoard);
-        n.terminalCheck();
-        n.parentNode = &node;
-        node.children[retArrCount] = &n;
-        
-        cout << nodeNames[nodeCount] << endl;
-        displayBoard(possibleBoard);
-        nodeCount++;
-        
-        setArrEqual(possibleBoard, b);
-      }
-    }
-  }
-  
-  //return retArr;
 }
 
 int eval(char b[SIZE][SIZE], Player p)
@@ -331,6 +296,43 @@ int eval(char b[SIZE][SIZE], Player p)
     }
 }
 
+void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
+{
+  //Node retArr[9]; // array that is returned, array of possible moves(nodes)
+  int retArrCount = 0;
+  char possibleBoard[SIZE][SIZE];
+
+  setArrEqual(possibleBoard, b);
+  
+  for (int i = 0; i<= 2; i++)
+  {
+    for (int j = 0; j <=2; j++)
+    {
+      if(freeSpace[i][j] == true)
+      {
+        possibleBoard[i][j] = p.peice;
+        setArrEqual(nodes[nodeCount].nodeBoard, possibleBoard);
+        
+        Node n = Node();
+        setArrEqual(n.nodeBoard, possibleBoard);
+        n.terminalCheck();
+        n.val = eval(n.nodeBoard, p);
+        n.parentNode = &node;
+        node.children[retArrCount] = &n;
+        
+        cout << nodeNames[nodeCount] << endl;
+        displayBoard(possibleBoard);
+        nodeCount++;
+        
+        setArrEqual(possibleBoard, b);
+      }
+    }
+  }
+  
+  //return retArr;
+}
+
+
 bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in MINIMAX-A-B
 {
   if(n.depth >= depth) 
@@ -348,20 +350,40 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
 }
 
 
-Node MINIMAX(Node n, int depth, Player p) // node is position
+Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node is position
 {
+  Player op; // opposite player
+  if (p.peice == 'X')
+  {
+    op = OMin;
+  }
+  else
+  {
+    op = XMax;
+  }
+  
   if (deepEnough(n, depth) == true)
   {
     return n;
   }
   else
   {
-    moveGen(n.nodeBoard, p, n);
+    moveGen(n.nodeBoard, p, n); // n.children[] has the successors
     
     if(n.children[0] == NULL)
     {
         return n;
-        
+    }
+    else
+    {
+      for(int i = 0; i < 9; i++)
+      {
+        if(n.children[i] != NULL)      
+        {
+          MINIMAX(*n.children[i], depth + 1, op, -USETHRESH, -PASSTHRESH);
+          
+        }
+      }
     }
   }
       
