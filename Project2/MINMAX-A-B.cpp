@@ -366,6 +366,7 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
 
 Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node is position
 {
+  Node ret;
   Player op; // opposite player
   if (p.peice == 'X')
   {
@@ -400,16 +401,16 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
           {
             PASSTHRESH = n.newVal;
             //path[pathCount] = resultChild;
-            pathCount++;
+            ret = resultChild;
           }
           if(PASSTHRESH >= USETHRESH)
           {
             n.val = PASSTHRESH;
-            return n;
+            return ret;
           }
           n.val = PASSTHRESH;
           //path[pathCount] = n;
-          return n;
+          return ret;
         }
       }
     }
