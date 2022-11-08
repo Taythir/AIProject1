@@ -109,6 +109,8 @@ class Player
 Node * moveGen(char b[SIZE][SIZE], Player p);
 void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]); //sets a = b
 
+Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH);
+
 Player XMax, OMin;
 
 ///////////////////////////////////////////
@@ -137,17 +139,27 @@ int main()
   cin >> OMin.evalNumber;
   cout << endl << endl;
   
-  auto start = high_resolution_clock::now();
-  /* actually play the game
-  while(path[pathCount].terminal != null)
-  {
-    
-  }
-  */
+  Node initialNode;
+  setArrEqual(initialNode.nodeBoard, board);
   
-  auto stop = high_resolution_clock::now();
+  auto start = high_resolution_clock::now(); //start timer
+  // actually play the game
+  while(path[pathCount].terminal != NULL)
+  {
+      // XMax goes first
+    path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
+    pathCount++;
+  }
+  
+  auto stop = high_resolution_clock::now(); // end timer
   auto duration = duration_cast<microseconds>(stop - start);
   int nodesGenerated = nodeCount + 1;
+  
+  cout << "actual path: " << endl;
+  for (int i = 0; i <= pathCount; i++)
+  {
+    displayBoard(path[i].nodeBoard);
+  }
   cout << "Nodes Generated: " << nodeCount << endl
        << "Duration: " << duration.count() << " microseconds" << endl;
 }
@@ -380,8 +392,22 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
       {
         if(n.children[i] != NULL)      
         {
-          MINIMAX(*n.children[i], depth + 1, op, -USETHRESH, -PASSTHRESH);
-          
+          Node resultChild = MINIMAX(*n.children[i], depth + 1, op, -USETHRESH, -PASSTHRESH);
+          n.newVal = resultChild.val;
+          if(n.newVal > PASSTHRESH)
+          {
+            PASSTHRESH = n.newVal;
+            //path[pathCount] = resultChild;
+            pathCount++;
+          }
+          if(PASSTHRESH >= USETHRESH)
+          {
+            n.val = PASSTHRESH;
+            return n;
+          }
+          n.val = PASSTHRESH;
+          //path[pathCount] = n;
+          return n;
         }
       }
     }
