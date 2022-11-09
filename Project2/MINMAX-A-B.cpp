@@ -150,7 +150,10 @@ int main()
   {
       // XMax goes first
     path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
+    initialNode = path[pathCount];
+    setArrEqual(board, path[pathCount].nodeBoard);
     pathCount++;
+    minMaxDepth++;
   }
   
   auto stop = high_resolution_clock::now(); // end timer
@@ -334,8 +337,8 @@ void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
         n.parentNode = &node;
         node.children[retArrCount] = &n;
         
-        cout << nodeNames[nodeCount] << endl;
-        displayBoard(possibleBoard);
+        //cout << nodeNames[nodeCount] << endl;
+        //displayBoard(possibleBoard);
         nodeCount++;
         
         setArrEqual(possibleBoard, b);
