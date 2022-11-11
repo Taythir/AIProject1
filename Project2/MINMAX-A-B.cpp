@@ -18,6 +18,7 @@ void initBoard();
 class Node
 {
   public:
+  string name;
   char nodeBoard[SIZE][SIZE]; //tic tac toe board for node
   int val = NULL, /* eval function value*/ depth = NULL,
       newVal = NULL;
@@ -69,9 +70,12 @@ class Node
   }
   
   Node *parentNode = NULL;
-  Node *children[9] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL}; //9 is max number of children
+  //Node *children[9] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL}; //9 is max number of children
+  int numberOfChildren = 0;
 };
-
+  Node Blank;
+  //Blank.name = "Blank";
+  Node children[9] = {Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank};
 Node::Node()
 {
     // To set depth
@@ -116,6 +120,7 @@ Player XMax, OMin;
 ///////////////////////////////////////////
 int main()
 {
+  Blank.name = "Blank";
   initBoard();
   int minMaxDepth = 0; //to use when calling MINIMAX
   
@@ -149,11 +154,19 @@ int main()
   for (int i = 0; i < 9; i++)
   {
       // XMax goes first
-    path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
+    if (i % 2 == 0)
+    {
+        path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
+    }
+    else 
+    {
+        path[pathCount] = MINIMAX(initialNode, minMaxDepth, OMin, USETHRESH, PASSTHRESH);
+    }
     initialNode = path[pathCount];
     setArrEqual(board, path[pathCount].nodeBoard);
     pathCount++;
     minMaxDepth++;
+    i++;
   }
   
   auto stop = high_resolution_clock::now(); // end timer
@@ -316,9 +329,10 @@ int eval(char b[SIZE][SIZE], Player p)
 void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
 {
   //Node retArr[9]; // array that is returned, array of possible moves(nodes)
+  displayBoard(b);
   int retArrCount = 0;
   char possibleBoard[SIZE][SIZE];
-
+  
   setArrEqual(possibleBoard, b);
   
   for (int i = 0; i<= 2; i++)
@@ -335,12 +349,13 @@ void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
         n.terminalCheck();
         n.val = eval(n.nodeBoard, p);
         n.parentNode = &node;
-        node.children[retArrCount] = &n;
+        children[retArrCount] = n;
+        node.numberOfChildren++;
         
         //cout << nodeNames[nodeCount] << endl;
-        //displayBoard(possibleBoard);
+        //displayBoard(node.children[retArrCount]->nodeBoard);
         nodeCount++;
-        
+        retArrCount++;
         setArrEqual(possibleBoard, b);
       }
     }
@@ -369,7 +384,11 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
 
 Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node is position
 {
-  Node ret;
+  for(int i = 0; i<9; i++)
+  {
+      children[i] = Blank;
+  }
+  Node ret = n;
   Player op; // opposite player
   if (p.peice == 'X')
   {
@@ -388,7 +407,7 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
   {
     moveGen(n.nodeBoard, p, n); // n.children[] has the successors
     
-    if(n.children[0] == NULL)
+    if(children[0].name == "Blank")
     {
         return n;
     }
@@ -396,9 +415,11 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
     {
       for(int i = 0; i < 9; i++)
       {
-        if(n.children[i] != NULL)      
+        if(n.numberOfChildren >= i)      
         {
-          Node resultChild = MINIMAX(*n.children[i], depth + 1, op, -USETHRESH, -PASSTHRESH);
+            cout << "passed" << endl;
+            displayBoard(children[i].nodeBoard);
+          Node resultChild = MINIMAX(children[i], depth + 1, op, -PASSTHRESH, -USETHRESH);
           n.newVal = resultChild.val;
           if(n.newVal > PASSTHRESH)
           {
