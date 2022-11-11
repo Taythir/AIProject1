@@ -162,8 +162,19 @@ int main()
     {
         path[pathCount] = MINIMAX(initialNode, minMaxDepth, OMin, USETHRESH, PASSTHRESH);
     }
-    initialNode = path[pathCount];
+    
     setArrEqual(board, path[pathCount].nodeBoard);
+    for(int r = 0; r < SIZE; r++)
+    {
+      for(int c = 0; c < SIZE; c++)
+      {
+        if (board[r][c] != '~')
+        {
+          freeSpace[r][c] = false;
+        }
+      }
+    }
+    initialNode = path[pathCount];
     pathCount++;
     minMaxDepth++;
     i++;
@@ -329,7 +340,7 @@ int eval(char b[SIZE][SIZE], Player p)
 void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
 {
   //Node retArr[9]; // array that is returned, array of possible moves(nodes)
-  displayBoard(b);
+  displayBoard(node.nodeBoard);
   int retArrCount = 0;
   char possibleBoard[SIZE][SIZE];
   
@@ -341,15 +352,19 @@ void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
     {
       if(freeSpace[i][j] == true)
       {
+        setArrEqual(children[retArrCount].nodeBoard, path[pathCount].nodeBoard);
         possibleBoard[i][j] = p.peice;
+        children[retArrCount].nodeBoard[i][j] = p.peice;
         setArrEqual(nodes[nodeCount].nodeBoard, possibleBoard);
         
-        Node n = Node();
-        setArrEqual(n.nodeBoard, possibleBoard);
-        n.terminalCheck();
-        n.val = eval(n.nodeBoard, p);
-        n.parentNode = &node;
-        children[retArrCount] = n;
+        //Node n = Node();
+        //setArrEqual(n.nodeBoard, possibleBoard);
+        children[retArrCount].terminalCheck();
+        children[retArrCount].val = eval(children[retArrCount].nodeBoard, p);
+        children[retArrCount].parentNode = &node;
+        //children[retArrCount] = n;
+        children[retArrCount].name = "a";
+        
         node.numberOfChildren++;
         
         //cout << nodeNames[nodeCount] << endl;
@@ -417,8 +432,8 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
       {
         if(n.numberOfChildren >= i)      
         {
-            cout << "passed" << endl;
-            displayBoard(children[i].nodeBoard);
+            cout << "passed" << p << endl;
+            displayBoard(children[p].nodeBoard);
           Node resultChild = MINIMAX(children[i], depth + 1, op, -PASSTHRESH, -USETHRESH);
           n.newVal = resultChild.val;
           if(n.newVal > PASSTHRESH)
@@ -432,7 +447,7 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
             n.val = PASSTHRESH;
             return ret;
           }
-          n.val = PASSTHRESH;
+          //n.val = PASSTHRESH;
           //path[pathCount] = n;
           return ret;
         }
