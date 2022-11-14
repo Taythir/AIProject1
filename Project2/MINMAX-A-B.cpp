@@ -432,8 +432,8 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
       {
         if(n.numberOfChildren >= i)      
         {
-            cout << "passed" << p << endl;
-            displayBoard(children[p].nodeBoard);
+            cout << "passed" << endl;
+            displayBoard(children[i].nodeBoard);
           Node resultChild = MINIMAX(children[i], depth + 1, op, -PASSTHRESH, -USETHRESH);
           n.newVal = resultChild.val;
           if(n.newVal > PASSTHRESH)
