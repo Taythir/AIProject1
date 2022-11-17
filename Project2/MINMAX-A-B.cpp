@@ -134,6 +134,12 @@ Player XMax, OMin;
 int main()
 {
   Blank.name = "Blank";
+  Blank.parentNode = NULL;
+  for(int i = 0; i<9; i++)
+  {
+      children[i] = Blank;
+  }
+  
   initBoard();
   int minMaxDepth = 0; //to use when calling MINIMAX
   
@@ -365,7 +371,7 @@ void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
   {
     for (int j = 0; j <=2; j++)
     {
-      if(freeSpace[i][j] == true)
+      if(node.nodeBoard[i][j] == '~')
       {
         //setArrEqual(children[retArrCount].nodeBoard, path[pathCount].nodeBoard);
         setArrEqual(children[retArrCount].nodeBoard, b);
@@ -413,7 +419,7 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
   }
 }
 
-
+Node ret;
 Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node is position
 {
   for(int i = 0; i<9; i++)
@@ -452,7 +458,8 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
             cout << "passed" << endl;
             displayBoard(children[i].nodeBoard);
           Node resultChild = MINIMAX(children[i], depth+1, op, -PASSTHRESH, -USETHRESH);
-          n.newVal = -resultChild.val;
+          resultChild = children[i];
+          n.newVal = -(resultChild.val);
           if(n.newVal > PASSTHRESH)
           {
             PASSTHRESH = n.newVal;
