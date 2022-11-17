@@ -167,21 +167,27 @@ int main()
   setArrEqual(initialNode.nodeBoard, board);
   path[pathCount] = initialNode;
   
+  bool Xturn = true; // true if it's x's turn
+  
   auto start = high_resolution_clock::now(); //start timer
   // actually play the game
   //while(path[pathCount].terminal == false)
   for (int i = 0; i < 9; i++)
   {
       // XMax goes first
-    if (i % 2 == 0)
+    if (Xturn)
     {
         path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
         cout << "set path X" << endl;
+        displayBoard(path[pathCount].nodeBoard);
+        Xturn = false;
     }
     else 
     {
         path[pathCount] = MINIMAX(initialNode, minMaxDepth, OMin, USETHRESH, PASSTHRESH);
         cout << "set path O" << endl;
+        displayBoard(path[pathCount].nodeBoard);
+        Xturn = true;
     }
     
     setArrEqual(board, path[pathCount].nodeBoard);
@@ -371,7 +377,7 @@ void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
   {
     for (int j = 0; j <=2; j++)
     {
-      if(node.nodeBoard[i][j] == '~')
+      if(node.nodeBoard[i][j] != 'X' && node.nodeBoard[i][j] != 'O')
       {
         //setArrEqual(children[retArrCount].nodeBoard, path[pathCount].nodeBoard);
         setArrEqual(children[retArrCount].nodeBoard, b);
@@ -455,10 +461,12 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
       {
         if(children[i].name != "Blank")      
         {
-            cout << "passed" << endl;
-            displayBoard(children[i].nodeBoard);
-          Node resultChild = MINIMAX(children[i], depth+1, op, -PASSTHRESH, -USETHRESH);
-          resultChild = children[i];
+            //cout << "passed" << endl;
+            //displayBoard(children[i].nodeBoard);
+          Node resultChild = MINIMAX(children[i], depth + 1, op, -PASSTHRESH, -USETHRESH);
+          //resultChild = children[i];
+          //cout << "res" << endl;
+          //displayBoard(resultChild.nodeBoard);
           n.newVal = -(resultChild.val);
           if(n.newVal > PASSTHRESH)
           {
