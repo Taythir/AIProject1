@@ -128,6 +128,8 @@ void setArrEqual(char a[SIZE][SIZE], char b[SIZE][SIZE]); //sets a = b
 
 Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH);
 
+Node ret;
+
 Player XMax, OMin;
 
 ///////////////////////////////////////////
@@ -425,7 +427,7 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
   }
 }
 
-Node ret;
+
 Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node is position
 {
   for(int i = 0; i<9; i++)
@@ -445,6 +447,8 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
   
   if (deepEnough(n, depth) == true)
   {
+    cout << "return init 1 " << endl;
+    displayBoard(n.nodeBoard);
     return n;
   }
   else
@@ -453,6 +457,8 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
     
     if(children[0].name == "Blank")
     {
+        cout << "return init" << endl;
+        displayBoard(n.nodeBoard);
         return n;
     }
     else
@@ -465,8 +471,8 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
             //displayBoard(children[i].nodeBoard);
           Node resultChild = MINIMAX(children[i], depth + 1, op, -PASSTHRESH, -USETHRESH);
           //resultChild = children[i];
-          //cout << "res" << endl;
-          //displayBoard(resultChild.nodeBoard);
+          cout << "result child" << endl;
+          displayBoard(resultChild.nodeBoard);
           n.newVal = -(resultChild.val);
           if(n.newVal > PASSTHRESH)
           {
@@ -477,11 +483,18 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
           if(PASSTHRESH >= USETHRESH)
           {
             n.val = PASSTHRESH;
+            setArrEqual(path[pathCount].nodeBoard, n.nodeBoard);
+            cout << "return h " << endl;
+            displayBoard(ret.nodeBoard);
             return ret;
           }
           //n.val = PASSTHRESH;
           //path[pathCount] = n;
           n.val = PASSTHRESH;
+          setArrEqual(path[pathCount].nodeBoard, n.nodeBoard);
+          cout << "return i" << endl;
+          displayBoard(ret.nodeBoard);
+          setArrEqual(path[pathCount].nodeBoard, ret.nodeBoard);
           return ret;
         }
       }
