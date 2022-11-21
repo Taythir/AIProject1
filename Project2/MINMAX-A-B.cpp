@@ -148,19 +148,23 @@ int main()
   XMax.peice = 'X';
   OMin.peice = 'O';
   cout << "Which evaluation function for XMax?: " << endl
+       << "-----------------------------------" << endl
        << "1: Possible wins - possible losses " << endl 
        << "2: Possible wins" << endl //add explanations for other evaluation functions and their code in the corresponding switch case in the eval function definition
        << "3: Possible losses" << endl
-       << "4: " << endl
+       << "4: Possible losses - possible wins" << endl
+       << "-----------------------------------" << endl
        << "Please enter a number: ";
   cin >> XMax.evalNumber;
   cout << endl << endl;
   
   cout << "Which evaluation function for OMin?: " << endl
+       << "-----------------------------------" << endl
        << "1: Possible wins - possible losses " << endl
        << "2: Possible wins" << endl
        << "3: Possible losses" << endl
-       << "4: " << endl
+       << "4: Possible losses - possible wins " << endl
+       << "-----------------------------------" << endl
        << "Please enter a number: ";
   cin >> OMin.evalNumber;
   cout << endl << endl;
