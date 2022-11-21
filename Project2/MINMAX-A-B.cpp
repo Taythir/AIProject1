@@ -174,25 +174,26 @@ int main()
   auto start = high_resolution_clock::now(); //start timer
   // actually play the game
   //while(path[pathCount].terminal == false)
+
   for (int i = 0; i < 9; i++)
   {
       // XMax goes first
     if (Xturn)
     {
-        path[pathCount] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
+        path[i] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
         cout << "set path X" << endl;
-        displayBoard(path[pathCount].nodeBoard);
+        //displayBoard(path[pathCount].nodeBoard);
         Xturn = false;
     }
     else 
     {
-        path[pathCount] = MINIMAX(initialNode, minMaxDepth, OMin, USETHRESH, PASSTHRESH);
+        path[i] = MINIMAX(initialNode, minMaxDepth, OMin, USETHRESH, PASSTHRESH);
         cout << "set path O" << endl;
-        displayBoard(path[pathCount].nodeBoard);
+        //displayBoard(path[pathCount].nodeBoard);
         Xturn = true;
     }
     
-    setArrEqual(board, path[pathCount].nodeBoard);
+    setArrEqual(board, path[i].nodeBoard);
     for(int r = 0; r < SIZE; r++)
     {
       for(int c = 0; c < SIZE; c++)
@@ -214,9 +215,9 @@ int main()
   int nodesGenerated = nodeCount + 1;
   
   cout << "actual path: " << endl;
-  for (int i = 0; i < pathCount; i++)
+  for (int i = 0; i < 9; i++)
   {
-    displayBoard(path[i].nodeBoard);
+    displayBoard(path[8-i].nodeBoard);
   }
   cout << "Nodes Generated: " << nodeCount << endl
        << "Duration: " << duration.count() << " microseconds" << endl;
@@ -427,7 +428,7 @@ bool deepEnough(Node n, int depth) // Node is position. deepEnough is for use in
   }
 }
 
-
+int resultChildNumber;
 Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node is position
 {
   for(int i = 0; i<9; i++)
@@ -459,6 +460,7 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
     {
         cout << "return init" << endl;
         displayBoard(n.nodeBoard);
+        //ret = n;
         return n;
     }
     else
@@ -473,32 +475,33 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
           //resultChild = children[i];
           cout << "result child" << endl;
           displayBoard(resultChild.nodeBoard);
+          ret = resultChild;
           n.newVal = -(resultChild.val);
           if(n.newVal > PASSTHRESH)
           {
             PASSTHRESH = n.newVal;
             //path[pathCount] = resultChild;
             ret = resultChild;
+            resultChildNumber = i;
           }
           if(PASSTHRESH >= USETHRESH)
           {
             n.val = PASSTHRESH;
-            setArrEqual(path[pathCount].nodeBoard, n.nodeBoard);
+            //setArrEqual(path[pathCount].nodeBoard, n.nodeBoard);
             cout << "return h " << endl;
             displayBoard(ret.nodeBoard);
             return ret;
+            //return children[resultChildNumber];
           }
           //n.val = PASSTHRESH;
           //path[pathCount] = n;
           n.val = PASSTHRESH;
-          setArrEqual(path[pathCount].nodeBoard, n.nodeBoard);
+          //setArrEqual(path[pathCount].nodeBoard, n.nodeBoard);
           cout << "return i" << endl;
           displayBoard(ret.nodeBoard);
           setArrEqual(path[pathCount].nodeBoard, ret.nodeBoard);
           return ret;
+          //return children[resultChildNumber];
         }
       }
     }
-  }
-      
-}
