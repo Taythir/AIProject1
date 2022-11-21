@@ -149,8 +149,8 @@ int main()
   OMin.peice = 'O';
   cout << "Which evaluation function for XMax?: " << endl
        << "1: Possible wins - possible losses " << endl 
-       << "2: " << endl //add explanations for other evaluation functions and their code in the corresponding switch case in the eval function definition
-       << "3: " << endl
+       << "2: Possible wins" << endl //add explanations for other evaluation functions and their code in the corresponding switch case in the eval function definition
+       << "3: Possible losses" << endl
        << "4: " << endl
        << "Please enter a number: ";
   cin >> XMax.evalNumber;
@@ -158,8 +158,8 @@ int main()
   
   cout << "Which evaluation function for OMin?: " << endl
        << "1: Possible wins - possible losses " << endl
-       << "2: " << endl
-       << "3: " << endl
+       << "2: Possible wins" << endl
+       << "3: Possible losses" << endl
        << "4: " << endl
        << "Please enter a number: ";
   cin >> OMin.evalNumber;
@@ -182,14 +182,14 @@ int main()
     {
         path[i] = MINIMAX(initialNode, minMaxDepth, XMax, USETHRESH, PASSTHRESH);
         cout << "set path X" << endl;
-        //displayBoard(path[pathCount].nodeBoard);
+        displayBoard(path[pathCount].nodeBoard);
         Xturn = false;
     }
     else 
     {
         path[i] = MINIMAX(initialNode, minMaxDepth, OMin, USETHRESH, PASSTHRESH);
         cout << "set path O" << endl;
-        //displayBoard(path[pathCount].nodeBoard);
+        displayBoard(path[pathCount].nodeBoard);
         Xturn = true;
     }
     
@@ -207,17 +207,19 @@ int main()
     initialNode = path[pathCount];
     pathCount++;
     minMaxDepth++;
-    i++;
   }
   
   auto stop = high_resolution_clock::now(); // end timer
   auto duration = duration_cast<microseconds>(stop - start);
   int nodesGenerated = nodeCount + 1;
   
+  Node *tmp = &initialNode;
   cout << "actual path: " << endl;
   for (int i = 0; i < 9; i++)
   {
-    displayBoard(path[8-i].nodeBoard);
+    displayBoard(tmp->nodeBoard);
+    //initialNode = *(initialNode.parentNode);
+    tmp = &path[i];
   }
   cout << "Nodes Generated: " << nodeCount << endl
        << "Duration: " << duration.count() << " microseconds" << endl;
@@ -273,6 +275,7 @@ int eval(char b[SIZE][SIZE], Player p)
     switch (p.evalNumber) // add other evaluation functions in other cases
     {
       case 1:
+      {
         int w = 0; // number of possible win lines for player
         int l = 0; //number of possible win lines for opposing player
         char op; // opposite players peice
@@ -364,6 +367,111 @@ int eval(char b[SIZE][SIZE], Player p)
   
         int evalFunc = w - l;
         return evalFunc;
+        break;
+      }
+      
+      case 2: //possible wins
+      {
+          
+        int w = 0; // number of possible win lines for player
+        int l = 0; //number of possible win lines for opposing player
+        char op; // opposite players peice
+    
+        if (p.peice = 'X')
+        {
+          op = 'O';
+        }
+        else
+        {
+          op = 'X';
+        }
+     
+        // horizontal possible wins
+        if (b[0][0] != op && b[0][1] != op && b[0][2] != op)
+        {
+          w++;
+        }
+        if (b[1][0] != op && b[1][1] != op && b[1][2] != op)
+        {
+          w++;
+        }
+        if (b[2][0] != op && b[2][1] != op && b[2][2] != op)
+        {
+          w++;
+        }
+    
+        //up and down possible wins
+        if (b[0][0] != op && b[1][0] != op && b[2][0] != op)
+        {
+          w++;
+        }
+        if (b[0][1] != op && b[1][1] != op && b[2][1] != op)
+        {
+          w++;
+        }
+        if (b[0][2] != op && b[1][2] != op && b[2][2] != op)
+        {
+          w++;
+        }
+  
+        //diagonal possible wins  
+        if (b[0][0] != op && b[1][1] != op && b[2][2] != op)
+        { 
+          w++;
+        }
+        if (b[2][0] != op && b[1][1] != op && b[0][2] != op)
+        {  
+          w++;
+        }
+        
+        return w;
+        break;
+      }
+      
+      case 3: // possible losses
+      {
+        int l = 0;
+          // horizontal possible losses
+        if (b[0][0] != p.peice && b[0][1] != p.peice && b[0][2] != p.peice)
+        {
+          l++;
+        }
+        if (b[1][0] != p.peice && b[1][1] != p.peice && b[1][2] != p.peice)
+        {
+          l++;
+        }
+        if (b[2][0] != p.peice && b[2][1] != p.peice && b[2][2] != p.peice)
+        {
+          l++;
+        }
+  
+        // vertical 
+        if (b[0][0] != p.peice && b[1][0] != p.peice && b[2][0] != p.peice)
+        {
+          l++;
+        }
+        if (b[0][1] != p.peice && b[1][1] != p.peice && b[2][1] != p.peice)
+        {
+          l++;
+        }
+        if (b[0][2] != p.peice && b[1][2] != p.peice && b[2][2] != p.peice)
+        {
+          l++;
+        }
+  
+        //diagonal possible losses  
+        if (b[0][0] != p.peice && b[1][1] != p.peice && b[2][2] != p.peice)
+        { 
+          l++;
+        }
+        if (b[2][0] != p.peice && b[1][1] != p.peice && b[0][2] != p.peice)
+        {  
+          l++;
+        }
+        
+        return -l;
+        break;
+      }
     }
 }
 
@@ -475,7 +583,7 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
           //resultChild = children[i];
           cout << "result child" << endl;
           displayBoard(resultChild.nodeBoard);
-          ret = resultChild;
+          //ret = resultChild;
           n.newVal = -(resultChild.val);
           if(n.newVal > PASSTHRESH)
           {
@@ -505,3 +613,5 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
         }
       }
     }
+  }
+}
