@@ -103,7 +103,8 @@ void setDepth(Node n)
 }
 
 Node path[9]; // 9 is max number of moves
-int pathCount = 0;
+Node bestPath[9];
+int pathCount = 0, bestPathCount = 0;
 Node A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
 Node nodes[500] = {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z}; //array of the nodes
 char nodeNames[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
@@ -172,6 +173,7 @@ int main()
   Node initialNode;
   setArrEqual(initialNode.nodeBoard, board);
   path[pathCount] = initialNode;
+  bestPath[0] = initialNode;
   
   bool Xturn = true; // true if it's x's turn
   
@@ -197,7 +199,7 @@ int main()
         Xturn = true;
     }
     
-    setArrEqual(board, path[i].nodeBoard);
+    setArrEqual(board, bestPath[i].nodeBoard);
     for(int r = 0; r < SIZE; r++)
     {
       for(int c = 0; c < SIZE; c++)
@@ -208,8 +210,9 @@ int main()
         }
       }
     }
-    initialNode = path[pathCount];
+    initialNode = bestPath[i];
     pathCount++;
+    bestPathCount++;
     minMaxDepth++;
   }
   
@@ -221,9 +224,12 @@ int main()
   cout << "actual path: " << endl;
   for (int i = 0; i < 9; i++)
   {
+      /*
     displayBoard(tmp->nodeBoard);
     //initialNode = *(initialNode.parentNode);
     tmp = &path[i];
+    */
+    displayBoard(bestPath[i].nodeBoard);
   }
   cout << "Nodes Generated: " << nodeCount << endl
        << "Duration: " << duration.count() << " microseconds" << endl;
@@ -587,13 +593,14 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
           //resultChild = children[i];
           cout << "result child" << endl;
           displayBoard(resultChild.nodeBoard);
-          ret = resultChild;
+          //ret = resultChild;
           n.newVal = -(resultChild.val);
           if(n.newVal > PASSTHRESH)
           {
             PASSTHRESH = n.newVal;
             //path[pathCount] = resultChild;
             ret = resultChild;
+            bestPath[bestPathCount] = ret;
             resultChildNumber = i;
           }
           if(PASSTHRESH >= USETHRESH)
