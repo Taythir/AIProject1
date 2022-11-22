@@ -112,13 +112,13 @@ int nodeCount = 0;
 
 class Player
 {
-  public: char peice; // x or y
+  public: char piece; // x or y
   int evalNumber; // to pick which evaluation function to use;
   void play(int r, int c)
   {
     if (freeSpace[r][c] == true)
     {
-      board[r][c] = peice;
+      board[r][c] = piece;
       freeSpace[r][c] = false;
     }
   }
@@ -146,8 +146,8 @@ int main()
   initBoard();
   int minMaxDepth = 0; //to use when calling MINIMAX
   
-  XMax.peice = 'X';
-  OMin.peice = 'O';
+  XMax.piece = 'X';
+  OMin.piece = 'O';
   cout << "Which evaluation function for XMax?: " << endl
        << "-----------------------------------" << endl
        << "1: Possible wins - possible losses " << endl 
@@ -233,6 +233,7 @@ int main()
   }
   cout << "Nodes Generated: " << nodeCount << endl
        << "Duration: " << duration.count() << " microseconds" << endl;
+  cout << "Nodes Expanded: " << minMaxDepth << endl;
 }
 ///////////////////////////////////////////
 
@@ -288,9 +289,9 @@ int eval(char b[SIZE][SIZE], Player p)
       {
         int w = 0; // number of possible win lines for player
         int l = 0; //number of possible win lines for opposing player
-        char op; // opposite players peice
+        char op; // opposite players piece
     
-        if (p.peice = 'X')
+        if (p.piece = 'X')
         {
           op = 'O';
         }
@@ -338,39 +339,39 @@ int eval(char b[SIZE][SIZE], Player p)
         }
      
         // horizontal possible losses
-        if (b[0][0] != p.peice && b[0][1] != p.peice && b[0][2] != p.peice)
+        if (b[0][0] != p.piece && b[0][1] != p.piece && b[0][2] != p.piece)
         {
           l++;
         }
-        if (b[1][0] != p.peice && b[1][1] != p.peice && b[1][2] != p.peice)
+        if (b[1][0] != p.piece && b[1][1] != p.piece && b[1][2] != p.piece)
         {
           l++;
         }
-        if (b[2][0] != p.peice && b[2][1] != p.peice && b[2][2] != p.peice)
+        if (b[2][0] != p.piece && b[2][1] != p.piece && b[2][2] != p.piece)
         {
           l++;
         }
   
         // vertical 
-        if (b[0][0] != p.peice && b[1][0] != p.peice && b[2][0] != p.peice)
+        if (b[0][0] != p.piece && b[1][0] != p.piece && b[2][0] != p.piece)
         {
           l++;
         }
-        if (b[0][1] != p.peice && b[1][1] != p.peice && b[2][1] != p.peice)
+        if (b[0][1] != p.piece && b[1][1] != p.piece && b[2][1] != p.piece)
         {
           l++;
         }
-        if (b[0][2] != p.peice && b[1][2] != p.peice && b[2][2] != p.peice)
+        if (b[0][2] != p.piece && b[1][2] != p.piece && b[2][2] != p.piece)
         {
           l++;
         }
   
         //diagonal possible losses  
-        if (b[0][0] != p.peice && b[1][1] != p.peice && b[2][2] != p.peice)
+        if (b[0][0] != p.piece && b[1][1] != p.piece && b[2][2] != p.piece)
         { 
           l++;
         }
-        if (b[2][0] != p.peice && b[1][1] != p.peice && b[0][2] != p.peice)
+        if (b[2][0] != p.piece && b[1][1] != p.piece && b[0][2] != p.piece)
         {  
           l++;
         }
@@ -385,9 +386,9 @@ int eval(char b[SIZE][SIZE], Player p)
           
         int w = 0; // number of possible win lines for player
         int l = 0; //number of possible win lines for opposing player
-        char op; // opposite players peice
+        char op; // opposite players piece
     
-        if (p.peice = 'X')
+        if (p.piece = 'X')
         {
           op = 'O';
         }
@@ -442,44 +443,140 @@ int eval(char b[SIZE][SIZE], Player p)
       {
         int l = 0;
           // horizontal possible losses
-        if (b[0][0] != p.peice && b[0][1] != p.peice && b[0][2] != p.peice)
+        if (b[0][0] != p.piece && b[0][1] != p.piece && b[0][2] != p.piece)
         {
           l++;
         }
-        if (b[1][0] != p.peice && b[1][1] != p.peice && b[1][2] != p.peice)
+        if (b[1][0] != p.piece && b[1][1] != p.piece && b[1][2] != p.piece)
         {
           l++;
         }
-        if (b[2][0] != p.peice && b[2][1] != p.peice && b[2][2] != p.peice)
+        if (b[2][0] != p.piece && b[2][1] != p.piece && b[2][2] != p.piece)
         {
           l++;
         }
   
         // vertical 
-        if (b[0][0] != p.peice && b[1][0] != p.peice && b[2][0] != p.peice)
+        if (b[0][0] != p.piece && b[1][0] != p.piece && b[2][0] != p.piece)
         {
           l++;
         }
-        if (b[0][1] != p.peice && b[1][1] != p.peice && b[2][1] != p.peice)
+        if (b[0][1] != p.piece && b[1][1] != p.piece && b[2][1] != p.piece)
         {
           l++;
         }
-        if (b[0][2] != p.peice && b[1][2] != p.peice && b[2][2] != p.peice)
+        if (b[0][2] != p.piece && b[1][2] != p.piece && b[2][2] != p.piece)
         {
           l++;
         }
   
         //diagonal possible losses  
-        if (b[0][0] != p.peice && b[1][1] != p.peice && b[2][2] != p.peice)
+        if (b[0][0] != p.piece && b[1][1] != p.piece && b[2][2] != p.piece)
         { 
           l++;
         }
-        if (b[2][0] != p.peice && b[1][1] != p.peice && b[0][2] != p.peice)
+        if (b[2][0] != p.piece && b[1][1] != p.piece && b[0][2] != p.piece)
         {  
           l++;
         }
         
         return -l;
+        break;
+      }
+
+      case 4:
+      {
+        int w = 0; // number of possible win lines for player
+        int l = 0; //number of possible win lines for opposing player
+        char op; // opposite players piece
+    
+        if (p.piece = 'X')
+        {
+          op = 'O';
+        }
+        else
+        {
+          op = 'X';
+        }
+     
+        // horizontal possible wins
+        if (b[0][0] != op && b[0][1] != op && b[0][2] != op)
+        {
+          w++;
+        }
+        if (b[1][0] != op && b[1][1] != op && b[1][2] != op)
+        {
+          w++;
+        }
+        if (b[2][0] != op && b[2][1] != op && b[2][2] != op)
+        {
+          w++;
+        }
+    
+        //up and down possible wins
+        if (b[0][0] != op && b[1][0] != op && b[2][0] != op)
+        {
+          w++;
+        }
+        if (b[0][1] != op && b[1][1] != op && b[2][1] != op)
+        {
+          w++;
+        }
+        if (b[0][2] != op && b[1][2] != op && b[2][2] != op)
+        {
+          w++;
+        }
+  
+        //diagonal possible wins  
+        if (b[0][0] != op && b[1][1] != op && b[2][2] != op)
+        { 
+          w++;
+        }
+        if (b[2][0] != op && b[1][1] != op && b[0][2] != op)
+        {  
+          w++;
+        }
+     
+        // horizontal possible losses
+        if (b[0][0] != p.piece && b[0][1] != p.piece && b[0][2] != p.piece)
+        {
+          l++;
+        }
+        if (b[1][0] != p.piece && b[1][1] != p.piece && b[1][2] != p.piece)
+        {
+          l++;
+        }
+        if (b[2][0] != p.piece && b[2][1] != p.piece && b[2][2] != p.piece)
+        {
+          l++;
+        }
+  
+        // vertical 
+        if (b[0][0] != p.piece && b[1][0] != p.piece && b[2][0] != p.piece)
+        {
+          l++;
+        }
+        if (b[0][1] != p.piece && b[1][1] != p.piece && b[2][1] != p.piece)
+        {
+          l++;
+        }
+        if (b[0][2] != p.piece && b[1][2] != p.piece && b[2][2] != p.piece)
+        {
+          l++;
+        }
+  
+        //diagonal possible losses  
+        if (b[0][0] != p.piece && b[1][1] != p.piece && b[2][2] != p.piece)
+        { 
+          l++;
+        }
+        if (b[2][0] != p.piece && b[1][1] != p.piece && b[0][2] != p.piece)
+        {  
+          l++;
+        }
+  
+        int evalFunc4 = l - w;
+        return evalFunc4;
         break;
       }
     }
@@ -502,8 +599,8 @@ void moveGen(char b[SIZE][SIZE], Player p, Node node) // move generator
       {
         //setArrEqual(children[retArrCount].nodeBoard, path[pathCount].nodeBoard);
         setArrEqual(children[retArrCount].nodeBoard, b);
-        possibleBoard[i][j] = p.peice;
-        children[retArrCount].nodeBoard[i][j] = p.peice;
+        possibleBoard[i][j] = p.piece;
+        children[retArrCount].nodeBoard[i][j] = p.piece;
         setArrEqual(nodes[nodeCount].nodeBoard, possibleBoard);
         
         //Node n = Node();
@@ -555,7 +652,7 @@ Node MINIMAX(Node n, int depth, Player p, int USETHRESH, int PASSTHRESH) // node
   }
   Node ret = n;
   Player op; // opposite player
-  if (p.peice == 'X')
+  if (p.piece == 'X')
   {
     op = OMin;
   }
