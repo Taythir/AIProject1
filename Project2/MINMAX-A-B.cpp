@@ -233,7 +233,7 @@ int main()
   }
   cout << "Nodes Generated: " << nodeCount << endl
        << "Duration: " << duration.count() << " microseconds" << endl;
-  cout << "Nodes Expanded: " << minMaxDepth << endl;
+  cout << "Nodes Expanded: " << endl; //need to input right variable here
 }
 ///////////////////////////////////////////
 
